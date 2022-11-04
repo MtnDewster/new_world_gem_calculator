@@ -14,16 +14,6 @@ mote_dict = {
     'Water': ['Aquamarine']
 }
 
-empty_motes_needed_dict = {
-    'Air': 0,
-    'Death': 0,
-    'Earth': 0,
-    'Fire': 0,
-    'Life': 0,
-    'Soul': 0,
-    'Water': 0
-}
-
 mote_surname = {
     3: ' Wisp',
     4: ' Essence',
@@ -105,7 +95,15 @@ class Window(QMainWindow):
         self.have_everything = True
         self.needed_list.clear()
         self.can_create_list.clear()
-        self.needed_motes = empty_motes_needed_dict.copy()
+        self.needed_motes = {
+            'Air': 0,
+            'Death': 0,
+            'Earth': 0,
+            'Fire': 0,
+            'Life': 0,
+            'Soul': 0,
+            'Water': 0
+        }
         self.current_gems = {
             'Amber': self.amber_amount.value(),
             'Amethyst': self.amethyst_amount.value(),
@@ -132,7 +130,7 @@ class Window(QMainWindow):
             'Water': self.water_amount.value()
         }
         self.can_create = {}
-        for k,v in mote_dict.items():
+        for k, v in mote_dict.items():
             self.tmp_needed_motes = 0
             for value in v:
                 self.num_craft = math.floor(self.current_gems[value] / self.needed_gems)
@@ -150,11 +148,11 @@ class Window(QMainWindow):
             for k, v in self.needed_motes.items():
                 if v != 0:
                     self.needed_list.addItem(f'{k}{mote_surname[self.needed_gems]} - {v}')
-        if self.have_everything == True:
+        else:
             self.needed_list.addItem('You have everything you need to craft!')
         if len(self.can_create) == 0:
             self.can_create_list.addItem('You can\'t fuse any gems :(')
-        if len(self.can_create) >= 1:
+        else:
             self.can_create_list.addItem('Once you have all motes you can craft (w/o bonuses):')
             for k, v in self.can_create.items():
                 self.can_create_list.addItem(f'{v} - {gem_prefix[self.needed_gems]}{k}(s).')
